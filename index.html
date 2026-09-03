@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema Solar 3D</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="scene"></canvas>
+
+      <header class="hud-top hud-layer">
+        <h1>Sistema Solar</h1>
+        <p>Arraste para orbitar · Scroll para zoom · Clique em um planeta · H esconde a interface</p>
+      </header>
+
+      <div class="left-stack hud-layer">
+        <aside class="panel controls">
+        <label class="control">
+          <span>Velocidade</span>
+          <input id="speed" type="range" min="0" max="8" step="0.1" value="1" />
+          <output id="speed-value">1.0×</output>
+        </label>
+        <div class="button-row">
+          <button id="pause" type="button">Pausar</button>
+          <button id="reset-camera" type="button">Visão geral</button>
+        </div>
+        <div class="button-row">
+          <button id="fullscreen" type="button">Tela cheia</button>
+          <button id="vr-toggle" type="button">VR</button>
+        </div>
+        <div class="button-row">
+          <button id="screenshot" type="button">Captura</button>
+          <button id="share-view" type="button">Compartilhar</button>
+        </div>
+        <label class="toggle">
+          <input id="orbits" type="checkbox" checked />
+          <span>Mostrar órbitas</span>
+        </label>
+        <label class="toggle">
+          <input id="belts" type="checkbox" checked />
+          <span>Cinturões</span>
+        </label>
+        <label class="toggle">
+          <input id="labels" type="checkbox" checked />
+          <span>Rótulos 3D</span>
+        </label>
+        <label class="toggle">
+          <input id="trail" type="checkbox" checked />
+          <span>Trilha orbital</span>
+        </label>
+        <label class="toggle">
+          <input id="relative-scale" type="checkbox" />
+          <span>Tamanhos relativos</span>
+        </label>
+        <label class="toggle">
+          <input id="live-pos" type="checkbox" checked />
+          <span>Posições da data</span>
+        </label>
+        <label class="toggle">
+          <input id="follow" type="checkbox" />
+          <span>Seguir seleção</span>
+        </label>
+        <label class="toggle">
+          <input id="sound" type="checkbox" checked />
+          <span>Som ambiente</span>
+        </label>
+        <label class="control">
+          <span>Escala de distâncias</span>
+          <input id="distance-scale" type="range" min="0" max="1" step="0.01" value="0" />
+          <output id="distance-value">Didática</output>
+        </label>
+        <button id="tour" type="button">Tour guiado</button>
+        <p class="ephem-status" id="ephem-status">Efemérides Kepler (J2000)</p>
+      </aside>
+
+      <aside class="panel tree-panel">
+        <div class="tree-header">
+          <h2>Explorar</h2>
+          <input id="tree-filter" type="search" placeholder="Filtrar…" autocomplete="off" />
+        </div>
+        <div id="body-tree" class="tree-scroll"></div>
+      </aside>
+      </div>
+
+      <aside class="panel info hud-layer" id="info" hidden>
+        <p class="info-eyebrow" id="info-type">Planeta</p>
+        <h2 id="info-name">—</h2>
+        <dl id="info-facts"></dl>
+        <button id="focus" type="button">Focar câmera</button>
+      </aside>
+
+      <aside class="panel compare hud-layer" id="compare">
+        <p class="info-eyebrow">Comparar tamanhos</p>
+        <div class="compare-stage">
+          <div class="compare-planet" id="compare-a"><span>Terra</span></div>
+          <div class="compare-planet" id="compare-b"><span>—</span></div>
+        </div>
+        <p class="compare-hint" id="compare-hint">Selecione um corpo</p>
+      </aside>
+
+      <canvas id="minimap" class="minimap hud-layer" width="168" height="168" aria-label="Mini-mapa da eclíptica"></canvas>
+      <p id="tour-caption" class="tour-caption hud-layer" hidden></p>
+
+      <footer class="timeline hud-layer">
+        <div class="timeline-head">
+          <span id="sim-time">Dia 0</span>
+          <span id="event-banner" class="event-banner" hidden></span>
+        </div>
+        <input id="timeline" type="range" min="0" max="1" step="0.0001" value="0.5" />
+        <div class="event-chips" id="event-chips"></div>
+      </footer>
+    </div>
+    <button id="exit-immersive" type="button" hidden>Sair do VR</button>
+    <div id="toast" hidden></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
